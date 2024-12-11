@@ -25,4 +25,10 @@ const setupAndStartServer = function() {
     });
 }
 
+app.use(cors({
+    origin: 'https://book-shelf-vert-sigma.vercel.app', // Replace with your frontend's domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+    credentials: true, // If you are sending cookies or authentication headers
+}));
+
 setupAndStartServer();
