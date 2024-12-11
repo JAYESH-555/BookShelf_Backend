@@ -8,14 +8,20 @@ const { connect } = require('./config/database-config');
 const logger = require('./config/logger');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+    origin: 'https://book-shelf-vert-sigma.vercel.app', // Frontend domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+}));
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', apiRoutes);
 
 app.get('/home', (req, res) => {
     res.send('<h1>Home</h1>');
-})
+});
 
 const setupAndStartServer = function() {
     app.listen(PORT, async function() {
@@ -23,12 +29,6 @@ const setupAndStartServer = function() {
         await connect();
         console.log('Mongo db connected');
     });
-}
-
-app.use(cors({
-    origin: 'https://book-shelf-vert-sigma.vercel.app', // Replace with your frontend's domain
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-    credentials: true, // If you are sending cookies or authentication headers
-}));
+};
 
 setupAndStartServer();
